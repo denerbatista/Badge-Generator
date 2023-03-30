@@ -37,47 +37,86 @@ function BadgeGenerator() {
     }
 
 
+    // function handleGeneratePDF() {
+    //     const doc = new jsPDF("l", "pt");
+
+    //     // adicionar imagem de fundo
+    //     const background = new Image();
+    //     background.src = backgroundBadge;
+    //     doc.addImage(background, "JPEG", 40, 10, 200, 300);
+
+    //     doc.setFontSize(12);
+    //     doc.addImage(logo, "PNG", 110, 50, 60, 40);
+    //     doc.setFont("Arial", "bold");
+    //     doc.setFontSize(12);
+    //     doc.text(institutionName, 140, 110, { align: "center" });
+    //     doc.setFontSize(16);
+    //     doc.setFont("Arial", "bold");
+    //     doc.text(name, 140, 260, { align: "center" });
+    //     doc.setFontSize(12);
+    //     doc.setFont("Arial", "");
+    //     doc.text(`Matrícula: ${id}`, 140, 260 + 20, { align: "center" });
+
+    //     const photoBlob = new Blob([photo as File], { type: 'image/png' });
+    //     const photoURL = URL.createObjectURL(photoBlob);
+    //     doc.addImage(photoURL, "PNG", 110, 125, 60, 80);
+
+    //     // doc.setFontSize(12);
+    //     // doc.addImage(logo, "PNG", 110, 50, 60, 40);
+    //     // doc.setFont("Arial", "bold");
+    //     // doc.setFontSize(12);
+    //     // doc.text(institutionName, 240, 25, { align: "center" });
+    //     // doc.setFontSize(16);
+    //     // doc.setFont("Arial", "bold");
+    //     // doc.text(name, 240, 70, { align: "center" });
+    //     // doc.setFontSize(12);
+    //     // doc.setFont("Arial", "");
+    //     // doc.text(`Matrícula: ${id}`, 140, 260 + 20, { align: "center" });
+
+    //     doc.save("badges.pdf");
+    //   }
+
     function handleGeneratePDF() {
-        const doc = new jsPDF("l", "pt");
-
-        // adicionar imagem de fundo
-        const background = new Image();
-        background.src = backgroundBadge;
-        doc.addImage(background, "JPEG", 40, 10, 200, 300);
-
-        doc.setFontSize(12);
-        doc.addImage(logo, "PNG", 110, 50, 60, 40);
-        doc.setFont("Arial", "bold");
-        doc.setFontSize(12);
-        doc.text(institutionName, 140, 110, { align: "center" });
-        doc.setFontSize(16);
-        doc.setFont("Arial", "bold");
-        doc.text(name, 140, 260, { align: "center" });
-        doc.setFontSize(12);
-        doc.setFont("Arial", "");
-        doc.text(`Matrícula: ${id}`, 140, 260 + 20, { align: "center" });
-
         const photoBlob = new Blob([photo as File], { type: 'image/png' });
         const photoURL = URL.createObjectURL(photoBlob);
-        doc.addImage(photoURL, "PNG", 110, 125, 60, 80);
+      
+        const img = new Image();
+        img.src = photoURL;
 
-        // doc.setFontSize(12);
-        // doc.addImage(logo, "PNG", 110, 50, 60, 40);
-        // doc.setFont("Arial", "bold");
-        // doc.setFontSize(12);
-        // doc.text(institutionName, 240, 25, { align: "center" });
-        // doc.setFontSize(16);
-        // doc.setFont("Arial", "bold");
-        // doc.text(name, 240, 70, { align: "center" });
-        // doc.setFontSize(12);
-        // doc.setFont("Arial", "");
-        // doc.text(`Matrícula: ${id}`, 140, 260 + 20, { align: "center" });
-
-        doc.save("badges.pdf");
+      
+        img.onload = () => {
+          const doc = new jsPDF({
+            orientation: "p",
+            unit: "pt",
+            format: [200, 300]
+          });
+      
+          // adicionar imagem de fundo
+          const background = new Image();
+          background.src = backgroundBadge;
+          doc.addImage(background, "JPEG", 0, 0, 200, 300);
+      
+          doc.setFontSize(12);
+          doc.addImage(logo, "PNG", 68, 50, 60, 40);
+          doc.setFont("Arial", "bold");
+          doc.setFontSize(12);
+          doc.text(institutionName, 100, 110, { align: "center" });
+          doc.setFontSize(16);
+          doc.setFont("Arial", "bold");
+          doc.text(name, 100, 260, { align: "center" });
+          doc.setFontSize(12);
+          doc.setFont("Arial", "");
+          doc.text(`Matrícula: ${id}`, 100, 260 + 20, { align: "center" });
+      
+          doc.addImage(photoURL, "PNG", 68, 125, 60, 80);
+      
+          doc.save("badge.pdf");
+        };
       }
+      
 
       const model2 = () => {
-        const doc = new jsPDF("l", "pt");
+        const doc = new jsPDF("p", "pt");
 
         // const background = new Image();
         // background.src = backgroundBadge;
